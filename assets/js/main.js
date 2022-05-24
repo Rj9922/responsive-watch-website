@@ -1,3 +1,34 @@
+/*=============== SHOW MENU ===============*/
+const navMenu = document.getElementById('nav-menu'),
+      navToggle = document.getElementById('nav-toggle'),
+      navClose = document.getElementById('nav-close')
+
+/*===== MENU SHOW =====*/
+/* Validate if constant exists */
+if(navToggle){
+    navToggle.addEventListener('click', () =>{
+        navMenu.classList.add('show-menu')
+    })
+}
+
+/*===== MENU HIDDEN =====*/
+/* Validate if constant exists */
+if(navClose){
+    navClose.addEventListener('click', () =>{
+        navMenu.classList.remove('show-menu')
+    })
+}
+
+/*=============== REMOVE MENU MOBILE ===============*/
+const navLink = document.querySelectorAll('.nav__link')
+
+function linkAction(){
+    const navMenu = document.getElementById('nav-menu')
+    // When we click on each nav__link, we remove the show-menu class
+    navMenu.classList.remove('show-menu')
+}
+navLink.forEach(n => n.addEventListener('click', linkAction))
+
 /*=============== CHANGE BACKGROUND HEADER ===============*/
 function scrollHeader(){
     const header = document.getElementById('header')
@@ -6,53 +37,37 @@ function scrollHeader(){
 }
 window.addEventListener('scroll', scrollHeader)
 
-/*=============== SWIPER POPULAR ===============*/
-var swiperPopular = new Swiper(".popular__container", {
-    spaceBetween: 32,
-    grabCursor: true,
-    centeredSlides: true,
-    slidesPerView: 'auto',
-    loop: true,
+/*=============== TESTIMONIAL SWIPER ===============*/
+let testimonialSwiper = new Swiper(".testimonial-swiper", {
+    spaceBetween: 30,
+    loop: 'true',
 
     navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
     },
-  });
+});
 
-/*=============== VALUE ACCORDION ===============*/
-const accordionItem = document.querySelectorAll('.value__accordion-item');
+/*=============== NEW SWIPER ===============*/
+let newSwiper = new Swiper(".new-swiper", {
+    spaceBetween: 24,
+    loop: 'true',
 
-accordionItem.forEach((item) => {
-  const accordionHeader = item.querySelector('.value__accordion-header');
-  
-  accordionHeader.addEventListener('click', () => {
-    const openItem = document.querySelector('.accordion-open')
-
-     toggleItem(item)
-
-     if(openItem && openItem!==item){
-       toggleItem(openItem)
-     }
-  });
-})
-
-const toggleItem = (item) => {
-  const accordionContent = item.querySelector('.value__accordion-content')
-
-  if(item.classList.contains('accordion-open')){
-    accordionContent.removeAttribute('style');
-    item.classList.remove('accordion-open');
-  }else{
-    accordionContent.style.height = accordionContent.scrollHeight + 'px'
-    item.classList.add('accordion-open');
-  }
-}
+    breakpoints: {
+        576: {
+          slidesPerView: 2,
+        },
+        768: {
+          slidesPerView: 3,
+        },
+        1024: {
+          slidesPerView: 4,
+        },
+    },
+});
 
 /*=============== SCROLL SECTIONS ACTIVE LINK ===============*/
 const sections = document.querySelectorAll('section[id]')
-
-console.log(sections)
 
 function scrollActive(){
     const scrollY = window.pageYOffset
@@ -62,7 +77,6 @@ function scrollActive(){
               sectionTop = current.offsetTop - 58,
               sectionId = current.getAttribute('id')
 
-
         if(scrollY > sectionTop && scrollY <= sectionTop + sectionHeight){
             document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.add('active-link')
         }else{
@@ -70,15 +84,36 @@ function scrollActive(){
         }
     })
 }
-window.addEventListener('scroll', scrollActive);
+window.addEventListener('scroll', scrollActive)
 
 /*=============== SHOW SCROLL UP ===============*/ 
 function scrollUp(){
-  const scrollUp = document.getElementById('scroll-up');
-  // When the scroll is higher than 350 viewport height, add the show-scroll class to the a tag with the scroll-top class
-  if(this.scrollY >= 350) scrollUp.classList.add('show-scroll'); else scrollUp.classList.remove('show-scroll')
+    const scrollUp = document.getElementById('scroll-up');
+    // When the scroll is higher than 350 viewport height, add the show-scroll class to the a tag with the scroll-top class
+    if(this.scrollY >= 350) scrollUp.classList.add('show-scroll'); else scrollUp.classList.remove('show-scroll')
 }
 window.addEventListener('scroll', scrollUp)
+
+/*=============== SHOW CART ===============*/
+const cart = document.getElementById('cart'),
+      cartShop = document.getElementById('cart-shop'),
+      cartClose = document.getElementById('cart-close')
+
+/*===== CART SHOW =====*/
+/* Validate if constant exists */
+if(cartShop){
+    cartShop.addEventListener('click', () =>{
+        cart.classList.add('show-cart')
+    })
+}
+
+/*===== CART HIDDEN =====*/
+/* Validate if constant exists */
+if(cartClose){
+    cartClose.addEventListener('click', () =>{
+        cart.classList.remove('show-cart')
+    })
+}
 
 /*=============== DARK LIGHT THEME ===============*/ 
 const themeButton = document.getElementById('theme-button')
@@ -109,23 +144,3 @@ themeButton.addEventListener('click', () => {
     localStorage.setItem('selected-theme', getCurrentTheme())
     localStorage.setItem('selected-icon', getCurrentIcon())
 })
-
-/*=============== SCROLL REVEAL ANIMATION ===============*/
-const sr = ScrollReveal({
-  origin: 'top',
-  distance: '60px',
-  duration:  2500,
-  delay: 400,
-  // reset: true
-})
-
-sr.reveal(`.home__title, .popular__container, ,subscribe__container, .footer__container`)
-sr.reveal(`.home__description, .footer__info`,{delay:500})
-sr.reveal(`.home__search`,{delay: 600})
-sr.reveal(`.home__value`,{delay: 700})
-sr.reveal(`.home__images`,{delay: 800, origin:'bottom'})
-sr.reveal(`.logos__img`,{interval:100})
-sr.reveal(`.values__images, .contact__content`,{origin:'left'})
-sr.reveal(`.value__content, .contact__images`,{origin:'right'})
-
-
